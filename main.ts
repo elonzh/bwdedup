@@ -1,3 +1,7 @@
+import * as fs from 'fs'
+import { isEqualWith } from 'lodash'
+import * as hash from 'object-hash'
+
 export interface BitWardenExports {
   encrypted: boolean;
   folders: Folder[];
@@ -24,6 +28,11 @@ export interface Item {
   fields?: Field[];
   card?: Card;
 }
+
+//
+// function itemHash (item: Item): string {
+//   return hash(item, { encoding: 'hex' , excludeKeys:(key: string) => boolean})
+// }
 
 export interface Card {
   cardholderName: string;
@@ -68,7 +77,14 @@ function dedup (input: BitWardenExports) {
   }
   for (const [name, sames] of itemMapping.entries()) {
     if (sames.length > 1) {
-      console.log(`${name}, sames.length`)
+      console.log(`${name}, ${sames.length}`)
     }
   }
 }
+
+function main () {
+  const rawdata = fs.readFileSync('bitwarden_export_20211020103447.json', { encoding: 'utf-8' })
+  dedup(JSON.parse(rawdata))
+}
+
+main()
