@@ -25,6 +25,7 @@
     "*.{js,ts,tsx}": "ts-standard --fix"
   },
   "dependencies": {
+    "jsoneditor": "^9.5.6",
     "lodash": "^4.17.21",
     "object-hash": "^2.2.0",
     "react": "^17.0.0",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
+    "@types/jsoneditor": "^9.5.0",
     "@types/lodash": "^4.14.175",
     "@types/node": "^16.11.1",
     "@types/object-hash": "^2.2.1",
