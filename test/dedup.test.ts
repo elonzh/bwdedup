@@ -37,7 +37,7 @@ test('hashItem', () => {
 describe('debup', () => {
   test('empty input', () => {
     const input = { folders: [], items: [] }
-    expect(removeDuplicateItems(input)).toStrictEqual(input)
+    expect(removeDuplicateItems(input, true)).toStrictEqual(input)
   })
 
   test('removeEmptyFolders', () => {
@@ -54,8 +54,8 @@ describe('debup', () => {
       ],
       items: []
     }
-    expect(removeDuplicateItems(input)).toStrictEqual({ folders: [], items: [] })
-    expect(removeDuplicateItems(input, { removeEmptyFolders: false })).toStrictEqual(input)
+    expect(removeDuplicateItems(input, true)).toStrictEqual({ folders: [], items: [] })
+    expect(removeDuplicateItems(input, false)).toStrictEqual(input)
   })
 
   test('empty input', () => {
@@ -119,7 +119,7 @@ describe('debup', () => {
       ],
       items: [input.items[0], input.items[2]]
     }
-    expect(removeDuplicateItems(input)).toStrictEqual(output)
+    expect(removeDuplicateItems(input, true)).toStrictEqual(output)
 
     input = output
     output = {

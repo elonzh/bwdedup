@@ -7,14 +7,6 @@ export function hashItem (item: Item): string {
   return hash(item, { encoding: 'hex', excludeKeys: (key: string) => excludeKeys.has(key) })
 }
 
-export interface DedupOptions {
-  removeEmptyFolders?: boolean
-}
-
-export const DefaultDedupOptions: DedupOptions = {
-  removeEmptyFolders: true
-}
-
 export function mergeSameFolders (input: BitWardenExports): BitWardenExports {
   const nameToId = new Map<string, string>()
   const idToId = new Map<string, string>()
@@ -39,8 +31,7 @@ export function mergeSameFolders (input: BitWardenExports): BitWardenExports {
   return input
 }
 
-export function removeDuplicateItems (input: BitWardenExports, options?: DedupOptions): BitWardenExports {
-  options = _.defaults(options, DefaultDedupOptions)
+export function removeDuplicateItems (input: BitWardenExports, removeEmptyFolders: boolean): BitWardenExports {
   const itemMapping = new Map<string, Item[]>()
   for (const item of input.items) {
     const key = hashItem(item)
@@ -62,8 +53,27 @@ export function removeDuplicateItems (input: BitWardenExports, options?: DedupOp
     items.push(keepItem)
   }
   input.items = items
-  if (options.removeEmptyFolders) {
+  if (removeEmptyFolders) {
     input.folders = input.folders.filter((value) => keepFolderIds.has(value.id))
   }
   return input
+}
+
+export interface DedupOptions {
+  removeEmptyFolders?: boolean
+  mergeSameFolders?: boolean
+}
+
+export const DefaultDedupOptions: DedupOptions = {
+  removeEmptyFolders: true,
+  mergeSameFolders: true
+}
+
+export function dedup (input: BitWardenExports, options?: DedupOptions): BitWardenExports {
+  options = _.defaults(options, DefaultDedupOptions)
+  let output = removeDuplicateItems(input, options.removeEmptyFolders as boolean)
+  if (options.mergeSameFolders) {
+    output = mergeSameFolders(output)
+  }
+  return output
 }
