@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "ahooks": "^2.10.12",
     "antd": "^4.16.13",
     "file-saver": "^2.0.5",
     "lodash": "^4.17.21",
