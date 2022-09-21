@@ -12,6 +12,7 @@ const themes = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "./",
   css: {
     preprocessorOptions: {
       less: {

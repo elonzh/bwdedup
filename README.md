@@ -1,4 +1,1 @@
-# bwdedup
-
-
-https://github.com/bitwarden/brand
+# [bwdedup](https://elonzh.github.io/bwdedup/)
