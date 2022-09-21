@@ -1,6 +1,6 @@
 import hash from 'object-hash'
 import { BitWardenExports, Folder, Item } from './models'
-import _ from 'lodash'
+import { defaults, orderBy } from 'lodash'
 
 export function hashItem (item: Item): string {
   const excludeKeys = new Set<string>(['id', 'organizationId', 'folderId', 'collectionIds', 'name', 'favorite'])
@@ -44,8 +44,8 @@ export function removeDuplicateItems (input: BitWardenExports, removeEmptyFolder
   }
   const keepFolderIds = new Set<string>()
   const items: Item[] = []
-  for (let [key, sames] of itemMapping.entries()) {
-    sames = _.orderBy(sames, ['favorite'], 'desc')
+  for (let [, sames] of itemMapping.entries()) {
+    sames = orderBy(sames, ['favorite'], 'desc')
     const keepItem = sames[0]
     if (keepItem.folderId) {
       keepFolderIds.add(keepItem.folderId)
@@ -70,7 +70,7 @@ export const DefaultDedupOptions: DedupOptions = {
 }
 
 export function dedup (input: BitWardenExports, options?: DedupOptions): BitWardenExports {
-  options = _.defaults(options, DefaultDedupOptions)
+  options = defaults(options, DefaultDedupOptions)
   let output = removeDuplicateItems(input, options.removeEmptyFolders as boolean)
   if (options.mergeSameFolders) {
     output = mergeSameFolders(output)
